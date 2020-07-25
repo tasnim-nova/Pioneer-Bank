@@ -24,19 +24,20 @@
             <div class="col-md-4">
                 <div class="deposit status">
                     <h5>Deposit</h5>
-                    <h2>$00</h2>
+                    <h2>$ <span id="currentDeposit">00</span></h2>
                 </div>
             </div>
             <div class="col-md-4 ">
                 <div class="withdraw status">
                     <h5>Withdraw</h5>
-                    <h2>$00</h2>
+                    <h2>$ <span id="currentWithdraw">00</span></h2>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="balance status">
                     <h5>Balance</h5>
-                    <h2>$1250</h2>
+                    <h2>$ <span id="currentBalance">1240</span></h2>
+    
                 </div>
             </div>
         </div>
@@ -45,18 +46,18 @@
                 <div class="submit-area">
                     <h4>Deposit</h4>
                     <br>
-                    <input type="text" class="form-control" placeholder="$amount you want to deposit">
+                    <input id="depositAmount" type="text" class="form-control" placeholder="$amount you want to deposit">
                     <br>
-                    <div class="btn btn-success">Deposit</div>
+                    <button id="addDeposit" class="btn btn-success">Deposit</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Withdraw</h4>
                     <br>
-                    <input type="text" class="form-control" placeholder="$amount you want to withdraw">
+                    <input type="text" id="withdrawAmount" class="form-control" placeholder="$amount you want to withdraw">
                     <br>
-                    <div class="btn btn-success">Withdraw</div>
+                    <button id="addWithdraw" class="btn btn-success">Withdraw</button>
                 </div>
             </div>
         </div>
@@ -72,7 +73,42 @@
         })
 
         //deposit button event handler
+        const depositBtn = document.getElementById('addDeposit');
+        depositBtn.addEventListener("click", function () {
+            const depositNum = getInputNumber( "depositAmount");
+           
+            //deposit input value pursing and empty string adding
+            updateSpanText("currentDeposit", depositNum);
+            document.getElementById('depositAmount').value= "";
+           
+            //Balance value pursing and new value adding
+            updateSpanText("currentBalance", depositNum);
+
+        })
+        //withdraw button event Handler
+            const withdrawBtn = document.getElementById('addWithdraw');
+            withdrawBtn.addEventListener("click", function () {
+                const withdrawNum = getInputNumber("withdrawAmount");
+
+            updateSpanText("currentWithdraw", withdrawNum);
+            document.getElementById('withdrawAmount').value= "";
+
+            updateSpanText("currentBalance", -withdrawNum);
+
+            })
         
+        function getInputNumber(id) {
+            const amount = document.getElementById(id).value;
+            const amountNum = parseFloat(amount);
+            return amountNum;
+        }
+        function updateSpanText(id, depositNum) {
+            const current = document.getElementById(id).innerText;
+            const oldNum= parseFloat(current);
+            const total = depositNum+oldNum;
+            document.getElementById(id).innerText = total;  
+        }
+
     </script>
 </body>
 </html>
